@@ -1,3 +1,30 @@
+<?php
+session_start();
+
+$error = '';
+$usuario_valor = '';
+
+// Verificar si se envió el formulario
+if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+    $usuario = isset($_POST['usuario']) ? trim($_POST['usuario']) : '';
+    $password = isset($_POST['password']) ? trim($_POST['password']) : '';
+    
+    // Guardar el valor del usuario para mostrarlo en el campo si hay error
+    $usuario_valor = htmlspecialchars($usuario);
+    
+    // Verificar credenciales
+    if ($usuario === 'pipe' && $password === '1234') {
+        // Credenciales correctas - redirigir
+        $_SESSION['usuario'] = $usuario;
+        $_SESSION['logueado'] = true;
+        header('Location: index.php?mensaje=' . urlencode('Bienvenido, ' . $usuario));
+        exit();
+    } else {
+        // Credenciales incorrectas - quedarse en esta página con mensaje de error
+        $error = 'Usuario o contraseña incorrectos. Por favor, intente nuevamente.';
+    }
+}
+?>
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -91,15 +118,30 @@
         .link a:hover {
             text-decoration: underline;
         }
+        
+        .error-message {
+            background-color: #f8d7da;
+            color: #721c24;
+            padding: 12px;
+            border-radius: 5px;
+            margin-bottom: 20px;
+            border: 1px solid #f5c6cb;
+            text-align: center;
+        }
     </style>
 </head>
 <body>
     <div class="login-container">
         <h1>Iniciar Sesión</h1>
+        <?php if (isset($error)): ?>
+            <div class="error-message">
+                <?php echo htmlspecialchars($error); ?>
+            </div>
+        <?php endif; ?>
         <form method="POST" action="login.php">
             <div class="form-group">
                 <label for="usuario">Usuario:</label>
-                <input type="text" id="usuario" name="usuario" required>
+                <input type="text" id="usuario" name="usuario" value="<?php echo $usuario_valor; ?>" required>
             </div>
             
             <div class="form-group">
