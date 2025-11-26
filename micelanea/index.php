@@ -244,7 +244,7 @@ $tipos = $conn->query($sql_tipos);
                             <td><?php echo htmlspecialchars($row['tipo_nombre']); ?></td>
                             <td class="actions">
                                 <a href="editar_producto.php?id=<?php echo $row['id']; ?>" class="btn btn-edit">Editar</a>
-                                <button class="btn btn-delete" onclick="confirmDelete(<?php echo $row['id']; ?>, <?php echo json_encode($row['nombre']); ?>)">Eliminar</button>
+                                <button type="button" class="btn btn-delete" data-product-id="<?php echo $row['id']; ?>" data-product-name="<?php echo htmlspecialchars($row['nombre']); ?>">Eliminar</button>
                             </td>
                         </tr>
                     <?php endwhile; ?>
@@ -309,10 +309,33 @@ $tipos = $conn->query($sql_tipos);
         }
         
         function confirmDelete(id, nombre) {
-            if (confirm('¿Está seguro de eliminar el producto "' + nombre + '"?')) {
-                window.location.href = 'eliminar_producto.php?id=' + id;
+            try {
+                if (confirm('¿Está seguro de eliminar el producto "' + nombre + '"?')) {
+                    window.location.href = 'eliminar_producto.php?id=' + id;
+                }
+            } catch (error) {
+                console.error('Error al eliminar producto:', error);
+                alert('Error al intentar eliminar el producto. Por favor, intente nuevamente.');
             }
         }
+        
+        // Agregar event listeners a todos los botones de eliminar
+        document.addEventListener('DOMContentLoaded', function() {
+            var deleteButtons = document.querySelectorAll('.btn-delete');
+            deleteButtons.forEach(function(button) {
+                button.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    var productId = this.getAttribute('data-product-id');
+                    var productName = this.getAttribute('data-product-name');
+                    if (productId && productName) {
+                        confirmDelete(productId, productName);
+                    } else {
+                        console.error('Error: No se encontraron los datos del producto');
+                        alert('Error: No se pudieron obtener los datos del producto.');
+                    }
+                });
+            });
+        });
         
         // Cerrar modal al hacer clic fuera
         window.onclick = function(event) {
