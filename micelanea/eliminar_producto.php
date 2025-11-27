@@ -17,7 +17,7 @@ if (isset($_GET['id'])) {
     $check_stmt->execute();
     $result = $check_stmt->get_result();
     
-    if ($result->num_rows == 0) {
+    if ($result->num_rows === 0) {
         $check_stmt->close();
         $conn->close();
         header("Location: index.php?error=El producto no existe");

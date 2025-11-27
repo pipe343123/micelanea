@@ -1,7 +1,7 @@
 <?php
 require_once 'config.php';
 
-if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $id = intval($_POST['id']);
     $nombre = trim($_POST['nombre']);
     $precio = floatval($_POST['precio']);

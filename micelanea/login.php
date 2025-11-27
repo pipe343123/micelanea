@@ -5,7 +5,7 @@ $error = '';
 $usuario_valor = '';
 
 // Verificar si se envió el formulario
-if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $usuario = isset($_POST['usuario']) ? trim($_POST['usuario']) : '';
     $password = isset($_POST['password']) ? trim($_POST['password']) : '';
     
