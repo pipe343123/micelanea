@@ -1,7 +1,7 @@
 <?php
 require_once 'config.php';
 
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $nombre = $_POST['nombre'];
     $precio = $_POST['precio'];
     $stock = $_POST['stock'];

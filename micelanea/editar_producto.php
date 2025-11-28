@@ -17,7 +17,7 @@ $stmt->bind_param("i", $id);
 $stmt->execute();
 $result = $stmt->get_result();
 
-if ($result->num_rows === 0) {
+if ($result->num_rows == 0) {
     header("Location: index.php?error=Producto no encontrado");
     exit();
 }
@@ -194,7 +194,7 @@ $tipos = $conn->query($sql_tipos);
                 <select id="tipo_id" name="tipo_id" required>
                     <option value="">Seleccione un tipo</option>
                     <?php while($tipo = $tipos->fetch_assoc()): ?>
-                        <option value="<?php echo $tipo['id']; ?>" <?php echo ($producto['tipo_id'] === $tipo['id']) ? 'selected' : ''; ?>>
+                        <option value="<?php echo $tipo['id']; ?>" <?php echo ($producto['tipo_id'] == $tipo['id']) ? 'selected' : ''; ?>>
                             <?php echo htmlspecialchars($tipo['nombre']); ?>
                         </option>
                     <?php endwhile; ?>
